@@ -7,7 +7,6 @@ function DateSelector({ startDate, endDate, onDateChange }) {
     <Grid container spacing={2} columns={16}>
       <Grid item xs={8}>
         <TextField
-          item
           fullWidth
           id="start-date"
           label="Start Date"
@@ -22,7 +21,6 @@ function DateSelector({ startDate, endDate, onDateChange }) {
 
       <Grid item xs={8}>
         <TextField
-          item
           fullWidth
           id="end-date"
           label="End Date"
