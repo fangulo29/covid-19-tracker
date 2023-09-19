@@ -1,74 +1,85 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import axios from "axios";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+Chart.register(CategoryScale);
 
-function ChartComponent({ data }) {
-  const chartRef = useRef(null);
+const ChartComponent = () => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: "Positive Cases",
+        data: [],
+        fill: false,
+        borderColor: "rgba(75, 192, 192, 1)",
+      },
+    ],
+  });
 
   useEffect(() => {
-    if (chartRef.current && data.length > 0) {
-      const ctx = chartRef.current.getContext('2d');
+    async function fetchData() {
+      try {
+        const response = await axios.get(
+          "https://api.covidtracking.com/v1/us/daily.json?date=2023-09-19&endDate=2023-09-19"
+        );
 
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: data.map((entry) => entry.date),
+        const data = response.data;
+        const dates = data.map((item) => item.date);
+        const positiveCases = data.map((item) => item.positive);
+
+        setChartData({
+          ...chartData,
+          labels: dates,
           datasets: [
             {
-              label: 'Cases',
-              borderColor: '#8884d8',
-              backgroundColor: 'rgba(136, 132, 216, 0.2)',
-              data: data.map((entry) => entry.cases),
-              fill: true,
-            },
-            {
-              label: 'Deaths',
-              borderColor: '#82ca9d',
-              backgroundColor: 'rgba(130, 202, 157, 0.2)',
-              data: data.map((entry) => entry.deaths),
-              fill: true,
-            },
-            {
-              label: 'Recovered',
-              borderColor: '#ffc658',
-              backgroundColor: 'rgba(255, 198, 88, 0.2)',
-              data: data.map((entry) => entry.recovered),
-              fill: true,
+              ...chartData.datasets[0],
+              data: positiveCases,
             },
           ],
-        },
-        options: {
-          scales: {
-            x: {
-              type: 'time',
-              time: {
-                unit: 'day',
-                displayFormats: {
-                  day: 'MMM D',
-                },
-              },
-              title: {
-                display: true,
-                text: 'Date',
-              },
-            },
-            y: {
-              beginAtZero: true,
-              title: {
-                display: true,
-                text: 'Count',
-              },
-            },
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
+  }, []); // Empty dependency array means it will fetch data once when the component mounts
+
+  const chartOptions = {
+    scales: {
+      x: [
+        {
+          type: "time", // Specify the X-axis as a time scale
+          time: {
+            unit: "day", // You can adjust the time unit as needed
+            parser: "YYYYMMDD", // Date format in your data
+            tooltipFormat: "ll", // Tooltip date format
+          },
+          title: {
+            display: true,
+            text: "Date", // X-axis label
           },
         },
-      });
-    }
-  }, [data]);
+      ],
+      y: [
+        {
+          type: "linear", // Specify the Y-axis as a linear scale
+          title: {
+            display: true,
+            text: "Positive Cases", // Y-axis label
+          },
+        },
+      ],
+    },
+  };
 
   return (
     <div>
-      <canvas ref={chartRef} width="600" height="300"></canvas>
+      <Line data={chartData} options={chartOptions} />
     </div>
   );
-}
+};
 
 export default ChartComponent;

@@ -21,8 +21,8 @@ const containerStyle = {
 function App() {
   const currentDate = formatLocalDate(new Date());
 
-  const [selectedStartDate, setSelectedStartDate] = useState("");
-  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [selectedStartDate, setSelectedStartDate] = useState(currentDate);
+  const [selectedEndDate, setSelectedEndDate] = useState(currentDate);
   const [selectedState, setSelectedState] = useState(null);
   const [stats, setStats] = useState([]);
   const [chartData, setChartData] = useState([]);
@@ -45,7 +45,9 @@ function App() {
             selectedEndDate
           );
 
-          // setChartData(historicData);
+          console.log(historicData);
+
+          setChartData(historicData);
         } else if (selectedState) {
           const stateStatsData = await fetchStateStats(selectedState.state);
 
