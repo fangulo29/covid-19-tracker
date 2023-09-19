@@ -56,12 +56,10 @@ function App() {
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={4}>
-          <Paper>
-            <DateSelector
-              selectedDate={selectedDate}
-              handleDateChange={(date) => setSelectedDate(date)}
-            />
-          </Paper>
+          <DateSelector
+            selectedDate={selectedDate}
+            handleDateChange={(date) => setSelectedDate(date)}
+          />
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper>
