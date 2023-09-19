@@ -1,52 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import Chart from './components/Chart'; // Import your Chart component here
-import DateSelector from './components/DateSelector'; // Import your DateSelector component here
-import StateFilter from './components/StateFilter'; // Import your StateFilter component here
-import Stats from './components/Stats'; // Import your Stats component here
+import React, { useState, useEffect } from "react";
+import CssBaseline from "@mui/material/CssBaseline";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Chart from "./components/Chart";
+import TextField from "@mui/material/TextField";
+import StateFilter from "./components/StateFilter";
+import Stats from "./components/Stats";
 import {
   fetchOverallStats,
   fetchHistoricData,
   fetchStateStats,
-} from './services/covidApi'; // Import your API functions
+} from "./services/covidApi";
+import { formatLocalDate } from "./components/form-helpers";
 
 const containerStyle = {
-  padding: '20px',
+  padding: "20px",
 };
 
 function App() {
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedState, setSelectedState] = useState('');
+  const currentDate = formatLocalDate(new Date());
+
+  const [selectedStartDate, setSelectedStartDate] = useState("");
+  const [selectedEndDate, setSelectedEndDate] = useState("");
+  const [selectedState, setSelectedState] = useState(null);
   const [stats, setStats] = useState([]);
   const [chartData, setChartData] = useState([]);
 
-  // Fetch data when the component mounts and whenever selectedDate or selectedState changes
+  const onChangeSelectedState = (state) => {
+    if (!!state) {
+      setSelectedState(state);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch overall statistics
-        const overallStatsData = await fetchOverallStats();
-        setStats(overallStatsData);
+        // const overallStatsData = await fetchOverallStats();
+        // setStats(overallStatsData);
 
-        if (selectedDate && selectedState) {
-          // Fetch historic data based on selected date and state
-          const historicData = await fetchHistoricData(selectedState, selectedDate, selectedDate);
-          setChartData(historicData);
+        if (selectedStartDate && selectedEndDate && selectedState) {
+          const historicData = await fetchHistoricData(
+            selectedStartDate,
+            selectedEndDate
+          );
+
+          // setChartData(historicData);
         } else if (selectedState) {
-          // Fetch state-specific statistics
-          const stateStatsData = await fetchStateStats(selectedState);
+          const stateStatsData = await fetchStateStats(selectedState.state);
+
           setStats(stateStatsData);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
-  }, [selectedDate, selectedState]);
+  }, [selectedStartDate, selectedEndDate, selectedState]);
 
   return (
     <div style={containerStyle}>
@@ -55,24 +66,46 @@ function App() {
         COVID-19 Statistics in the USA
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={4}>
-          <DateSelector
-            selectedDate={selectedDate}
-            handleDateChange={(date) => setSelectedDate(date)}
-          />
+        <Grid item container spacing={2} columns={16}>
+          <Grid item xs={8}>
+            <TextField
+              fullWidth
+              id="start-date"
+              label="Start Date"
+              type="date"
+              value={selectedStartDate}
+              onChange={(e) => setSelectedStartDate(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={8}>
+            <TextField
+              fullWidth
+              id="end-date"
+              label="End Date"
+              type="date"
+              value={selectedEndDate}
+              onChange={(e) => setSelectedEndDate(e.target.value)}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper>
-            {/* Pass the list of states and the selected state */}
             <StateFilter
               selectedState={selectedState}
-              handleStateChange={(state) => setSelectedState(state)}
+              onStateChange={onChangeSelectedState}
             />
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper>
-            <Stats stats={stats} />
+            <Stats data={stats} />
           </Paper>
         </Grid>
         <Grid item xs={12}>

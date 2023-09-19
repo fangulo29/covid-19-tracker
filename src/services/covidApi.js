@@ -1,59 +1,59 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'https://covidtracking.com/data/api';
+const API_BASE_URL = "https://api.covidtracking.com";
 
 // Define the endpoint to fetch the list of states
 export const STATES = [
-    { state: 'AL', name: 'Alabama' },
-    { state: 'AK', name: 'Alaska' },
-    { state: 'AZ', name: 'Arizona' },
-    { state: 'AR', name: 'Arkansas' },
-    { state: 'CA', name: 'California' },
-    { state: 'CO', name: 'Colorado' },
-    { state: 'CT', name: 'Connecticut' },
-    { state: 'DE', name: 'Delaware' },
-    { state: 'FL', name: 'Florida' },
-    { state: 'GA', name: 'Georgia' },
-    { state: 'HI', name: 'Hawaii' },
-    { state: 'ID', name: 'Idaho' },
-    { state: 'IL', name: 'Illinois' },
-    { state: 'IN', name: 'Indiana' },
-    { state: 'IA', name: 'Iowa' },
-    { state: 'KS', name: 'Kansas' },
-    { state: 'KY', name: 'Kentucky' },
-    { state: 'LA', name: 'Louisiana' },
-    { state: 'ME', name: 'Maine' },
-    { state: 'MD', name: 'Maryland' },
-    { state: 'MA', name: 'Massachusetts' },
-    { state: 'MI', name: 'Michigan' },
-    { state: 'MN', name: 'Minnesota' },
-    { state: 'MS', name: 'Mississippi' },
-    { state: 'MO', name: 'Missouri' },
-    { state: 'MT', name: 'Montana' },
-    { state: 'NE', name: 'Nebraska' },
-    { state: 'NV', name: 'Nevada' },
-    { state: 'NH', name: 'New Hampshire' },
-    { state: 'NJ', name: 'New Jersey' },
-    { state: 'NM', name: 'New Mexico' },
-    { state: 'NY', name: 'New York' },
-    { state: 'NC', name: 'North Carolina' },
-    { state: 'ND', name: 'North Dakota' },
-    { state: 'OH', name: 'Ohio' },
-    { state: 'OK', name: 'Oklahoma' },
-    { state: 'OR', name: 'Oregon' },
-    { state: 'PA', name: 'Pennsylvania' },
-    { state: 'RI', name: 'Rhode Island' },
-    { state: 'SC', name: 'South Carolina' },
-    { state: 'SD', name: 'South Dakota' },
-    { state: 'TN', name: 'Tennessee' },
-    { state: 'TX', name: 'Texas' },
-    { state: 'UT', name: 'Utah' },
-    { state: 'VT', name: 'Vermont' },
-    { state: 'VA', name: 'Virginia' },
-    { state: 'WA', name: 'Washington' },
-    { state: 'WV', name: 'West Virginia' },
-    { state: 'WI', name: 'Wisconsin' },
-    { state: 'WY', name: 'Wyoming' },
+  { state: "al", name: "Alabama" },
+  { state: "ak", name: "Alaska" },
+  { state: "az", name: "Arizona" },
+  { state: "ar", name: "Arkansas" },
+  { state: "ca", name: "California" },
+  { state: "co", name: "Colorado" },
+  { state: "ct", name: "Connecticut" },
+  { state: "de", name: "Delaware" },
+  { state: "fl", name: "Florida" },
+  { state: "ga", name: "Georgia" },
+  { state: "hi", name: "Hawaii" },
+  { state: "id", name: "Idaho" },
+  { state: "il", name: "Illinois" },
+  { state: "in", name: "Indiana" },
+  { state: "ia", name: "Iowa" },
+  { state: "ks", name: "Kansas" },
+  { state: "ky", name: "Kentucky" },
+  { state: "la", name: "Louisiana" },
+  { state: "me", name: "Maine" },
+  { state: "md", name: "Maryland" },
+  { state: "ma", name: "Massachusetts" },
+  { state: "mi", name: "Michigan" },
+  { state: "mn", name: "Minnesota" },
+  { state: "ms", name: "Mississippi" },
+  { state: "mo", name: "Missouri" },
+  { state: "mt", name: "Montana" },
+  { state: "ne", name: "Nebraska" },
+  { state: "nv", name: "Nevada" },
+  { state: "nh", name: "New Hampshire" },
+  { state: "nj", name: "New Jersey" },
+  { state: "nm", name: "New Mexico" },
+  { state: "ny", name: "New York" },
+  { state: "nc", name: "North Carolina" },
+  { state: "nd", name: "North Dakota" },
+  { state: "oh", name: "Ohio" },
+  { state: "ok", name: "Oklahoma" },
+  { state: "or", name: "Oregon" },
+  { state: "pa", name: "Pennsylvania" },
+  { state: "ri", name: "Rhode Island" },
+  { state: "sc", name: "South Carolina" },
+  { state: "sd", name: "South Dakota" },
+  { state: "tn", name: "Tennessee" },
+  { state: "tx", name: "Texas" },
+  { state: "ut", name: "Utah" },
+  { state: "vt", name: "Vermont" },
+  { state: "va", name: "Virginia" },
+  { state: "wa", name: "Washington" },
+  { state: "wv", name: "West Virginia" },
+  { state: "wi", name: "Wisconsin" },
+  { state: "wy", name: "Wyoming" },
 ];
 
 export const fetchOverallStats = async () => {
@@ -61,7 +61,7 @@ export const fetchOverallStats = async () => {
     const response = await axios.get(`${API_BASE_URL}/v1/us/current.json`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching overall stats:', error);
+    console.error("Error fetching overall stats:", error);
     throw error;
   }
 };
@@ -73,17 +73,19 @@ export const fetchHistoricData = async (startDate, endDate) => {
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching historic data:', error);
+    console.error("Error fetching historic data:", error);
     throw error;
   }
 };
 
 export const fetchStateStats = async (stateCode) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/v1/states/${stateCode}/current.json`);
+    const response = await axios.get(
+      `${API_BASE_URL}/v1/states/${stateCode}/current.json`
+    );
     return response.data;
   } catch (error) {
-    console.error('Error fetching state stats:', error);
+    console.error("Error fetching state stats:", error);
     throw error;
   }
 };
