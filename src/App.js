@@ -1,121 +1,158 @@
-import React, { useState, useEffect } from "react";
+import React, { Suspense, lazy } from "react";
+import { Route, useLocation, Routes, Navigate } from "react-router-dom";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import IconButton from "@mui/material/IconButton";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Chart from "./components/Chart";
-import TextField from "@mui/material/TextField";
-import StateFilter from "./components/StateFilter";
-import Stats from "./components/Stats";
-import {
-  fetchOverallStats,
-  fetchHistoricData,
-  fetchStateStats,
-} from "./services/covidApi";
-import { formatLocalDate } from "./components/form-helpers";
+import { Container } from "@mui/material";
 
-const containerStyle = {
-  padding: "20px",
-};
+const Home = lazy(() => import("./pages/Home"));
+const HistoricStats = lazy(() => import("./pages/HistoricStats"));
 
-function App() {
-  const currentDate = formatLocalDate(new Date());
+const drawerWidth = 240;
 
-  const [selectedStartDate, setSelectedStartDate] = useState(currentDate);
-  const [selectedEndDate, setSelectedEndDate] = useState(currentDate);
-  const [selectedState, setSelectedState] = useState(null);
-  const [stats, setStats] = useState([]);
-  const [chartData, setChartData] = useState([]);
+function App(props) {
+  const location = useLocation();
 
-  const onChangeSelectedState = (state) => {
-    if (!!state) {
-      setSelectedState(state);
-    }
+  const pages = [
+    {
+      pageLink: "/currentstats",
+      view: Home,
+      displayName: "Current stats",
+      showInNavbar: true,
+    },
+    {
+      pageLink: "/historicstats",
+      view: HistoricStats,
+      displayName: "Historic Stats",
+      showInNavbar: true,
+    },
+  ];
+
+  const { window } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const overallStatsData = await fetchOverallStats();
-        // setStats(overallStatsData);
+  const drawer = (
+    <div>
+      <Toolbar>Covid-19 USA Tacker</Toolbar>
+      <Divider />
+      <List>
+        {pages.map((page, index) => (
+          <ListItem disablePadding>
+            <ListItemButton to={page.pageLink} key={index} disablePadding>
+              <ListItemText primary={page.displayName} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </div>
+  );
 
-        if (selectedStartDate && selectedEndDate && selectedState) {
-          const historicData = await fetchHistoricData(
-            selectedStartDate,
-            selectedEndDate
-          );
-
-          console.log(historicData);
-
-          setChartData(historicData);
-        } else if (selectedState) {
-          const stateStatsData = await fetchStateStats(selectedState.state);
-
-          setStats(stateStatsData);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
-  }, [selectedStartDate, selectedEndDate, selectedState]);
+  const container =
+    window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div style={containerStyle}>
-      <CssBaseline />
-      <Typography variant="h4" component="h1" align="center" gutterBottom>
-        COVID-19 Statistics in the USA
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item container spacing={2} columns={16}>
-          <Grid item xs={8}>
-            <TextField
-              fullWidth
-              id="start-date"
-              label="Start Date"
-              type="date"
-              value={selectedStartDate}
-              onChange={(e) => setSelectedStartDate(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-
-          <Grid item xs={8}>
-            <TextField
-              fullWidth
-              id="end-date"
-              label="End Date"
-              type="date"
-              value={selectedEndDate}
-              onChange={(e) => setSelectedEndDate(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper>
-            <StateFilter
-              selectedState={selectedState}
-              onStateChange={onChangeSelectedState}
-            />
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper>
-            <Stats data={stats} />
-          </Paper>
-        </Grid>
-        <Grid item xs={12}>
-          <Paper>
-            <Chart data={chartData} />
-          </Paper>
-        </Grid>
-      </Grid>
+    <div className="App">
+      <Box sx={{ display: "flex" }}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          sx={{
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+            ml: { sm: `${drawerWidth}px` },
+          }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: "none" } }}
+            >
+              ⬅️
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Covid-19 USA Tacker
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        >
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true,
+            }}
+            sx={{
+              display: { xs: "block", sm: "none" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: "none", sm: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
+                width: drawerWidth,
+              },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            width: { sm: `calc(100% - ${drawerWidth}px)` },
+          }}
+        >
+          <Toolbar />
+          <Container>
+            <Suspense fallback={<div />}>
+              <Routes location={location}>
+                {pages.map((page, index) => {
+                  return (
+                    <Route
+                      exact
+                      path={page.pageLink}
+                      element={<page.view />}
+                      key={index}
+                    />
+                  );
+                })}
+                <Route path="/" element={<Navigate replace to="/home" />} />
+              </Routes>
+            </Suspense>
+          </Container>
+        </Box>
+      </Box>
     </div>
   );
 }
