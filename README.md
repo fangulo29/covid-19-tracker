@@ -55,16 +55,16 @@ Project Structure
 
 ## Folder Structure
 
-covid19-tracker/
-├── src/
-│ ├── components/
-│ ├── pages/
-│ ├── services/
-│ ├── App.js
-│ ├── index.js
-├── public/
-├── package.json
-├── README.md
+    .
+    ├── src/
+    │ ├── components/
+    │ ├── pages/
+    │ ├── services/
+    │ ├── App.js
+    │ ├── index.js
+    ├── public/
+    ├── package.json
+    ├── README.md
 
 ## Usage
 
