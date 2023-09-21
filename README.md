@@ -66,6 +66,8 @@ Project Structure
     ├── package.json
     ├── README.md
 
-> **Usage**: [live demo](https://master--heartfelt-bunny-c6cd7f.netlify.app)
+### Usage
 
-    Navigate through the application using the provided user interface components.
+- Visit the live demo [live demo](https://master--heartfelt-bunny-c6cd7f.netlify.app)
+
+- Navigate through the application using the provided user interface components.
