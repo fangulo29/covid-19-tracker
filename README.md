@@ -25,11 +25,11 @@ In the project directory, you can run:
 
 Install dependencies:
 
-    `npm install`
+    npm install
 
 Start the development server:
 
-    `npm start`
+    npm start
 
 The app should now be running locally on http://localhost:3000.
 
