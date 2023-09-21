@@ -68,6 +68,6 @@ Project Structure
 
 ## Usage
 
-    Visit the live demo https://master--heartfelt-bunny-c6cd7f.netlify.app.
+    Visit the [live demo](https://master--heartfelt-bunny-c6cd7f.netlify.app)
 
     Navigate through the application using the provided user interface components.
