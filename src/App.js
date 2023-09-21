@@ -147,7 +147,10 @@ function App(props) {
                     />
                   );
                 })}
-                <Route path="/" element={<Navigate replace to="/home" />} />
+                <Route
+                  path="/"
+                  element={<Navigate replace to="/currentstats" />}
+                />
               </Routes>
             </Suspense>
           </Container>
