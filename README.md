@@ -2,7 +2,7 @@
 
 This project is a web application that provides information related to COVID-19 in the USA. Users can view current overall statistics with graphs, historical statistics with graphs showing data by dates, and filter data by state.
 
-## Technologies Used
+### Technologies Used
 
 - React
 - Axios (for making API requests)
@@ -10,7 +10,7 @@ This project is a web application that provides information related to COVID-19 
 - Material-UI (for styling)
 - React Router (for navigation)
 
-## Installation
+### Installation
 
 1. Clone this repository:
 
@@ -19,7 +19,7 @@ This project is a web application that provides information related to COVID-19 
    cd covid19-tracker
    ```
 
-## Available Scripts
+### Available Scripts
 
 In the project directory, you can run:
 
@@ -33,7 +33,7 @@ Start the development server:
 
 The app should now be running locally on http://localhost:3000.
 
-## Features
+### Features
 
     Current Statistics: View the latest COVID-19 statistics for the USA.
 
@@ -41,7 +41,7 @@ The app should now be running locally on http://localhost:3000.
 
     State Filtering: Filter data by selecting a specific state.
 
-## API
+### API
 
 This project uses the COVID-19 data API from covidtracking.com.
 Project Structure
@@ -53,7 +53,7 @@ Project Structure
     App.js is the main application component.
     index.js is the entry point of the application.
 
-## Folder Structure
+### Folder Structure
 
     .
     ├── src/
@@ -66,8 +66,6 @@ Project Structure
     ├── package.json
     ├── README.md
 
-## Usage
-
-    Visit the [live demo](https://master--heartfelt-bunny-c6cd7f.netlify.app)
+> **Usage**: [live demo](https://master--heartfelt-bunny-c6cd7f.netlify.app)
 
     Navigate through the application using the provided user interface components.
