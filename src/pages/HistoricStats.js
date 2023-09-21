@@ -17,7 +17,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 function HistoricStats() {
-  const currentDate = formatLocalDate(new Date());
+  const currentDate = formatLocalDate(new Date("2021-03-07"));
 
   const [selectedStartDate, setSelectedStartDate] = useState(currentDate);
   const [selectedState, setSelectedState] = useState(null);
