@@ -1,30 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
+import { Container } from "@mui/material";
 
 import {
-  fetchOverallStats,
-  fetchHistoricData,
+  fetchHistoricDataByDate,
   fetchStateStats,
+  fetchHistoricDataByDateAndState,
 } from "../services/covidApi";
 import Chart from "../components/Chart";
 import StateFilter from "../components/StateFilter";
 import Stats from "../components/Stats";
 import { formatLocalDate } from "../components/form-helpers";
-
-const containerStyle = {
-  padding: "20px",
-};
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
 
 function HistoricStats() {
   const currentDate = formatLocalDate(new Date());
 
   const [selectedStartDate, setSelectedStartDate] = useState(currentDate);
-  const [selectedEndDate, setSelectedEndDate] = useState(currentDate);
   const [selectedState, setSelectedState] = useState(null);
   const [stats, setStats] = useState([]);
   const [chartData, setChartData] = useState([]);
@@ -38,22 +33,24 @@ function HistoricStats() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const overallStatsData = await fetchOverallStats();
-        setStats(overallStatsData);
-
-        if (selectedStartDate && selectedEndDate && selectedState) {
-          const historicData = await fetchHistoricData(
-            selectedStartDate,
-            selectedEndDate
+        if (selectedStartDate && selectedState) {
+          const historicData = await fetchHistoricDataByDateAndState(
+            selectedStartDate.replace(/-/g, ""),
+            selectedState.state
           );
-
-          console.log(historicData);
-
-          setChartData(historicData);
+          setChartData([historicData]);
+          const stateStatsData = await fetchStateStats(selectedState.state);
+          setStats(stateStatsData);
+        } else if (selectedStartDate) {
+          const stateStatsData = await fetchHistoricDataByDate(
+            selectedStartDate.replace(/-/g, "")
+          );
+          setStats(stateStatsData);
+          setChartData([stateStatsData]);
         } else if (selectedState) {
           const stateStatsData = await fetchStateStats(selectedState.state);
-
           setStats(stateStatsData);
+          setChartData([stateStatsData]);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -61,52 +58,39 @@ function HistoricStats() {
     };
 
     fetchData();
-  }, [selectedStartDate, selectedEndDate, selectedState]);
+  }, [selectedStartDate, selectedState]);
 
   return (
     <>
       <Helmet>
         <title>COVID-19 USA - Historic Stats</title>
-        <meta name="title" content="Coronavirus: Latest Map and Case Count" />
+        <meta name="title" content="Coronavirus: Historic Map and Case Count" />
       </Helmet>
 
       <div className="historic-stats">
-        <div style={containerStyle}>
-          <CssBaseline />
-          <Typography variant="h4" component="h1" align="center" gutterBottom>
-            COVID-19 Statistics in the USA
-          </Typography>
+        <Container maxWidth="lg" sx={{ mb: 4 }}>
           <Grid container spacing={3}>
-            <Grid item container spacing={2} columns={16}>
-              <Grid item xs={8}>
-                <TextField
-                  fullWidth
-                  id="start-date"
-                  label="Start Date"
-                  type="date"
-                  value={selectedStartDate}
-                  onChange={(e) => setSelectedStartDate(e.target.value)}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
-
-              <Grid item xs={8}>
-                <TextField
-                  fullWidth
-                  id="end-date"
-                  label="End Date"
-                  type="date"
-                  value={selectedEndDate}
-                  onChange={(e) => setSelectedEndDate(e.target.value)}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
-              </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom color="#607d8b">
+                Historic stats
+              </Typography>
             </Grid>
-            <Grid item xs={12} md={4}>
+
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                id="start-date"
+                label="Selected Date"
+                type="date"
+                value={selectedStartDate}
+                onChange={(e) => setSelectedStartDate(e.target.value)}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={6}>
               <Paper>
                 <StateFilter
                   selectedState={selectedState}
@@ -114,18 +98,26 @@ function HistoricStats() {
                 />
               </Paper>
             </Grid>
-            <Grid item xs={12} md={4}>
-              <Paper>
-                <Stats data={stats} />
-              </Paper>
-            </Grid>
+
             <Grid item xs={12}>
-              <Paper>
+              <Stats data={stats} />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Paper
+                item
+                sx={{
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "auto",
+                }}
+              >
                 <Chart data={chartData} />
               </Paper>
             </Grid>
           </Grid>
-        </div>
+        </Container>
       </div>
     </>
   );

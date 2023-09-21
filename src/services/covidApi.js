@@ -75,10 +75,20 @@ export const fetchHistoricToDailyData = async () => {
   }
 };
 
-export const fetchHistoricData = async (startDate, endDate) => {
+export const fetchHistoricDataByDate = async (date) => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/v1/us/${date}.json`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching historic data:", error);
+    throw error;
+  }
+};
+
+export const fetchHistoricDataByDateAndState = async (date, state) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/v1/us/daily.json?date=${startDate}&endDate=${endDate}`
+      `${API_BASE_URL}/v1/states/${state}/${date}.json`
     );
     return response.data;
   } catch (error) {

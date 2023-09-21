@@ -7,11 +7,6 @@ import Grid from "@mui/material/Grid";
 function Stats({ data }) {
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <Typography variant="h6" gutterBottom color="#607d8b">
-          Latest data collected: {data.date}
-        </Typography>
-      </Grid>
       <Grid item xs={12} sm={12} md={6} lg={3}>
         <Card item>
           <CardContent>

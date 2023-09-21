@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
 import { Container } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
 import {
   fetchOverallStats,
@@ -11,11 +11,9 @@ import {
 } from "../services/covidApi";
 import Chart from "../components/Chart";
 import Stats from "../components/Stats";
-import { formatLocalDate } from "../components/form-helpers";
 
 function Home() {
-  const currentDate = formatLocalDate(new Date());
-  const [selectedState, setSelectedState] = useState(null);
+  const { selectedState } = useState(null);
   const [stats, setStats] = useState([]);
   const [chartData, setChartData] = useState([]);
 
@@ -45,6 +43,11 @@ function Home() {
       <div className="Home">
         <Container maxWidth="lg" sx={{ mb: 4 }}>
           <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom color="#607d8b">
+                Latest data collected: {stats.date}
+              </Typography>
+            </Grid>
             <Grid item xs={12}>
               <Stats item data={stats} />
             </Grid>
