@@ -33,7 +33,7 @@ Start the development server:
 
 The app should now be running locally on http://localhost:3000.
 
-Features
+## Features
 
     Current Statistics: View the latest COVID-19 statistics for the USA.
 
@@ -41,19 +41,19 @@ Features
 
     State Filtering: Filter data by selecting a specific state.
 
-API
+## API
 
 This project uses the COVID-19 data API from covidtracking.com.
 Project Structure
 
     src/ contains the source code for the React application.
-        components/ includes reusable UI components.
-        pages/ contains the different pages of the application.
-        services/ (optional) can be used to manage API requests.
-        App.js is the main application component.
-        index.js is the entry point of the application.
+    components/ includes reusable UI components.
+    pages/ contains the different pages of the application.
+    services/ (optional) can be used to manage API requests.
+    App.js is the main application component.
+    index.js is the entry point of the application.
 
-Folder Structure
+## Folder Structure
 
 covid19-tracker/
 ├── src/
@@ -66,8 +66,8 @@ covid19-tracker/
 ├── package.json
 ├── README.md
 
-Usage
+## Usage
 
-    Visit the live demo (https://master--heartfelt-bunny-c6cd7f.netlify.app).
+    Visit the live demo https://master--heartfelt-bunny-c6cd7f.netlify.app.
 
     Navigate through the application using the provided user interface components.
