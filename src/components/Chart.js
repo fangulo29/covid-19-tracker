@@ -1,75 +1,83 @@
 import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
-import axios from "axios";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 
 Chart.register(CategoryScale);
 
-const ChartComponent = () => {
+const ChartComponent = ({ data }) => {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
       {
-        label: "Positive Cases",
+        label: "Deaths",
+        data: [],
+        fill: false,
+        borderColor: "rgba(255, 0, 0, 1)",
+      },
+      {
+        label: "Hospitalized Cases",
         data: [],
         fill: false,
         borderColor: "rgba(75, 192, 192, 1)",
+      },
+      {
+        label: "Positive Cases",
+        data: [],
+        fill: false,
+        borderColor: "rgba(255, 152, 0, 1)",
       },
     ],
   });
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "https://api.covidtracking.com/v1/us/daily.json?date=2023-09-19&endDate=2023-09-19"
-        );
+    const dates = data.map((item) => item.date);
+    const deathCases = data.map((item) => item.death);
+    const hospitalizedCases = data.map((item) => item.hospitalized);
+    const positiveCases = data.map((item) => item.positive);
 
-        const data = response.data;
-        const dates = data.map((item) => item.date);
-        const positiveCases = data.map((item) => item.positive);
-
-        setChartData({
-          ...chartData,
-          labels: dates,
-          datasets: [
-            {
-              ...chartData.datasets[0],
-              data: positiveCases,
-            },
-          ],
-        });
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchData();
-  }, []); // Empty dependency array means it will fetch data once when the component mounts
+    setChartData({
+      ...chartData,
+      labels: dates,
+      datasets: [
+        {
+          ...chartData.datasets[0],
+          data: deathCases,
+        },
+        {
+          ...chartData.datasets[1],
+          data: hospitalizedCases,
+        },
+        {
+          ...chartData.datasets[2],
+          data: positiveCases,
+        },
+      ],
+    });
+  }, [data]);
 
   const chartOptions = {
     scales: {
       x: [
         {
-          type: "time", // Specify the X-axis as a time scale
+          type: "time",
           time: {
-            unit: "day", // You can adjust the time unit as needed
-            parser: "YYYYMMDD", // Date format in your data
-            tooltipFormat: "ll", // Tooltip date format
+            unit: "day",
+            parser: "YYYYMMDD",
+            tooltipFormat: "ll",
           },
           title: {
             display: true,
-            text: "Date", // X-axis label
+            text: "Date",
           },
         },
       ],
       y: [
         {
-          type: "linear", // Specify the Y-axis as a linear scale
+          type: "linear",
           title: {
             display: true,
-            text: "Positive Cases", // Y-axis label
+            text: "Positive Cases",
           },
         },
       ],

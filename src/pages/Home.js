@@ -7,8 +7,7 @@ import { Container } from "@mui/material";
 
 import {
   fetchOverallStats,
-  fetchHistoricData,
-  fetchStateStats,
+  fetchHistoricToDailyData,
 } from "../services/covidApi";
 import Chart from "../components/Chart";
 import Stats from "../components/Stats";
@@ -23,20 +22,10 @@ function Home() {
   const fetchData = async () => {
     try {
       const overallStatsData = await fetchOverallStats();
-
-      // console.log(overallStatsData[0]);
-
       setStats(overallStatsData[0]);
 
-      if (selectedState) {
-        const historicData = await fetchHistoricData(currentDate, currentDate);
-
-        setChartData(historicData);
-      } else if (selectedState) {
-        const stateStatsData = await fetchStateStats(selectedState.state);
-
-        setStats(stateStatsData);
-      }
+      const historicData = await fetchHistoricToDailyData();
+      setChartData(historicData);
     } catch (error) {
       console.error("Error fetching data:", error);
     }

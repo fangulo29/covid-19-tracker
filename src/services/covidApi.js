@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_BASE_URL = "https://api.covidtracking.com";
 
-// Define the endpoint to fetch the list of states
 export const STATES = [
   { state: "al", name: "Alabama" },
   { state: "ak", name: "Alaska" },
@@ -62,6 +61,16 @@ export const fetchOverallStats = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching overall stats:", error);
+    throw error;
+  }
+};
+
+export const fetchHistoricToDailyData = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/v1/us/daily.json`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching historic data:", error);
     throw error;
   }
 };
