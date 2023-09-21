@@ -54,12 +54,15 @@ function Home() {
       </Helmet>
 
       <div className="Home">
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="lg" sx={{ mb: 4 }}>
           <Grid container spacing={3}>
-            <Stats item data={stats} />
+            <Grid item xs={12}>
+              <Stats item data={stats} />
+            </Grid>
 
-            <Grid item container style={{ margin: 0 }}>
+            <Grid item xs={12}>
               <Paper
+                item
                 sx={{
                   p: 2,
                   display: "flex",

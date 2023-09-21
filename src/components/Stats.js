@@ -9,14 +9,14 @@ function Stats({ data }) {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Typography variant="h6" gutterBottom color="#607d8b">
-          Latest Data collected: {data.date}
+          Latest data collected: {data.date}
         </Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={12} sm={12} md={6} lg={3}>
         <Card item>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14, mb: 1.5 }}
+              sx={{ fontSize: 16, mb: 1.5 }}
               color="#4db6ac"
               gutterBottom
             >
@@ -29,11 +29,11 @@ function Stats({ data }) {
         </Card>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={12} sm={12} md={6} lg={3}>
         <Card item>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14, mb: 1.5 }}
+              sx={{ fontSize: 16, mb: 1.5 }}
               color="#f44336"
               gutterBottom
             >
@@ -46,11 +46,11 @@ function Stats({ data }) {
         </Card>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={12} sm={12} md={6} lg={3}>
         <Card item>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14, mb: 1.5 }}
+              sx={{ fontSize: 16, mb: 1.5 }}
               color="#90caf9"
               gutterBottom
             >
@@ -63,11 +63,11 @@ function Stats({ data }) {
         </Card>
       </Grid>
 
-      <Grid item xs={3}>
+      <Grid item xs={12} sm={12} md={6} lg={3}>
         <Card item>
           <CardContent>
             <Typography
-              sx={{ fontSize: 14, mb: 1.5 }}
+              sx={{ fontSize: 16, mb: 1.5 }}
               color="#ff9800"
               gutterBottom
             >

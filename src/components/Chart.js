@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 import axios from "axios";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
+
 Chart.register(CategoryScale);
 
 const ChartComponent = () => {
@@ -75,11 +76,7 @@ const ChartComponent = () => {
     },
   };
 
-  return (
-    <div>
-      <Line data={chartData} options={chartOptions} />
-    </div>
-  );
+  return <Line data={chartData} options={chartOptions} />;
 };
 
 export default ChartComponent;
