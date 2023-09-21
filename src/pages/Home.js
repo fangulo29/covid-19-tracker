@@ -38,6 +38,7 @@ function Home() {
       <Helmet>
         <title>COVID-19 USA - Current Stats</title>
         <meta name="title" content="Coronavirus: Latest Map and Case Count" />
+        <link rel="icon" type="image/png" href="favicon.png"></link>
       </Helmet>
 
       <div className="Home">

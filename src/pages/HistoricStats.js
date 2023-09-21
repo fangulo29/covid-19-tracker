@@ -65,6 +65,7 @@ function HistoricStats() {
       <Helmet>
         <title>COVID-19 USA - Historic Stats</title>
         <meta name="title" content="Coronavirus: Historic Map and Case Count" />
+        <link rel="icon" type="image/png" href="favicon.png"></link>
       </Helmet>
 
       <div className="historic-stats">
