@@ -9,7 +9,7 @@ import {
   fetchStateStats,
   fetchHistoricDataByDateAndState,
 } from "../services/covidApi";
-import Chart from "../components/Chart";
+import Graph from "../components/Graph";
 import StateFilter from "../components/StateFilter";
 import Stats from "../components/Stats";
 import { formatLocalDate } from "../components/form-helpers";
@@ -113,7 +113,7 @@ function HistoricStats() {
                   height: "auto",
                 }}
               >
-                <Chart data={chartData} />
+                <Graph data={chartData} />
               </Paper>
             </Grid>
           </Grid>
