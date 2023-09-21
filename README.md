@@ -57,11 +57,11 @@ Project Structure
 
     .
     ├── src/
-    │ ├── components/
-    │ ├── pages/
-    │ ├── services/
-    │ ├── App.js
-    │ ├── index.js
+    │   ├── components/
+    │   ├── pages/
+    │   ├── services/
+    │   ├── App.js
+    │   ├── index.js
     ├── public/
     ├── package.json
     ├── README.md
